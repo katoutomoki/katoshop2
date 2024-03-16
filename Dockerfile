@@ -1,7 +1,29 @@
-FROM maven:3-eclipse-temurin-17 AS build//buildステージを開始、Eclipse Temurin 17 JDKを適応したMavenということを設定
-COPY . .//ファイルをコピー
-RUN mvn clean package -Dmaven.test.skip=true//アプリケーションの実行と、テストのスキップ。
-FROM eclipse-temurin:17-alpine//新しいビルドステージの開始
-COPY --from=build /target/EmployeeWork10-0.0.1-SNAPSHOT.jar EmployeeWork10.jar//前のビルドステージからビルドされたjarファイル(demo.jar)を新しいビルドステージにコピー
-EXPOSE 8080//ポート8080を宣言
-ENTRYPOINT ["java", "-jar", "EmployeeWork10.jar"]//実行するファイル(EmployeeWork10.jar)を指定
+# ベースイメージは Java 8
+FROM openjdk:11
+
+WORKDIR /root/.local
+
+RUN apt-get update
+
+# Eclipse(STS)をインストール
+RUN wget https://download.springsource.com/release/STS4/4.6.0.RELEASE/dist/e4.15/spring-tool-suite-4-4.6.0.RELEASE-e4.15.0-linux.gtk.x86_64.tar.gz -O - | tar zxvf - && \
+    ln -s /root/.local/sts-4.6.0.RELEASE/SpringToolSuite4 /usr/sbin/sts
+# Eclipseは「libswt-gtk-4-jni」がないと動かない
+RUN apt-get install libswt-gtk-4-jni -y
+# Eclipseの日本語化
+RUN wget https://ftp.jaist.ac.jp/pub/mergedoc/pleiades/build/old/2021/0507/pleiades_20210507.zip && \
+    unzip /root/.local/pleiades_20210507.zip -d pleiades && \
+    cp /root/.local/pleiades/plugins /root/.local/sts-4.6.0.RELEASE -r && \
+    cp /root/.local/pleiades/features /root/.local/sts-4.6.0.RELEASE -r && \
+    echo "-Xverify:none" >> /root/.local/sts-4.6.0.RELEASE/SpringToolSuite4.ini && \
+    echo "-javaagent:/root/.local/sts-4.6.0.RELEASE/plugins/jp.sourceforge.mergedoc.pleiades/pleiades.jar" >> /root/.local/sts-4.6.0.RELEASE/SpringToolSuite4.ini
+
+# X Window Systemのインストール
+RUN apt-get install x11-apps -y
+ENV DISPLAY=host.docker.internal:0.0
+
+# 日本語化
+RUN apt-get install task-japanese -y && \
+    apt-get install locales -y && \
+    echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen && \
+    /usr/sbin/locale-gen
