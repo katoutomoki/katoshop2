@@ -1,0 +1,89 @@
+@charset "UTF-8";
+
+body {
+	font-family: BIZ UDPゴシック;
+	background-color: #98fb98;
+	text-align: center;
+}
+
+h1 {
+	font-size: 32px;
+	border: 5px solid limegreen;
+	background-color: green;
+    color: white;
+    height: 50px;
+    line-height: 50px;
+}
+
+h2 {
+	font-size: 28px;
+	background-color:limegreen;
+    color: white;
+    height: 40px;
+    line-height: 40px;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid #8fbc8f;
+}
+
+.short {
+	width: 180px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.long {
+	width: 60%;
+	height: 120px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.red {
+    color: red;
+    font-weight: bold;
+}
+
+table {
+	border: 1px solid #5e696c;
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
+	border-collapse:  collapse;
+}
+
+th {
+	border: 1px solid #5e696c;
+    text-align:center;
+    background-color: #3cb371;
+    height: 32px;
+}
+
+td {
+	border: 1px solid #5e696c;
+	text-align: center;
+	background-color: #ffffe0;
+	height: 24px;
+}
+
+.tableSize10 {
+	width: 10%;
+}
+
+.tableSize15 {
+	width: 15%;
+}
+
+.tableSize50 {
+	width: 50%;
+}
+
+.select-list {
+    background-color: #eee8aa;
+}
+
+.table-list {
+    background-color: #afeeee;
+}
